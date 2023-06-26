@@ -5,11 +5,15 @@ const path = require('path')
 
 const app = express();
 app.use(bodyParser.json());
+app.use(express.static('src'));
+
+const dataObjFile = './jsondata/dataObj.json';
+const todolistFile = './jsondata/todoList.json';
 
 
 let counter = 0; 
 let readCounter = ()=>{
-  let data = fs.readFileSync("dataObj.json",{encoding: 'utf-8', flag: 'r'});
+  let data = fs.readFileSync(dataObjFile,{encoding: 'utf-8', flag: 'r'});
   let dataObj = JSON.parse(data);
   counter = dataObj.counter;
 }
@@ -27,29 +31,29 @@ const readWritefn = (file,key,value) => {
 }
 
 app.get('/',(req,res)=>{
-  res.sendFile(path.join(__dirname, "index.html"))
+  res.sendFile('/index.html');
 })
 
 app.post('/todos', (req,res)=>{
   const newTodo = req.body;
-  readWritefn('todoList.json',counter,newTodo);
-  readWritefn('dataObj.json',"counter",counter);
+  readWritefn(todolistFile,counter,newTodo);
+  readWritefn(dataObjFile,"counter",counter);
   counter += 1;
   res.sendStatus(201);
 })
 
 app.get('/todos',(req,res)=>{
-  fs.readFile('todoList.json','utf-8',(err,data)=>{
+  fs.readFile(todolistFile,'utf-8',(err,data)=>{
     if (err) console.log(err);
     let obj = JSON.parse(data);
-    let allObj = Object.values(obj);
+    let allObj = Object.values(obj);       // If we want to retrun a array of objects we can use this
     let json = JSON.stringify(allObj);
     res.send(json);
   })
 })
 
 app.get('/todos/:id',(req,res)=>{
-  fs.readFile('todoList.json','utf-8',(err,data)=>{
+  fs.readFile(todolistFile,'utf-8',(err,data)=>{
     if (err) console.log(err);
     let obj = JSON.parse(data)
     if (!obj.hasOwnProperty(req.params.id)){
@@ -61,7 +65,7 @@ app.get('/todos/:id',(req,res)=>{
 
 app.put('/todos/:id',(req,res)=>{
   const newTodo = req.body;
-  fs.readFile('todoList.json','utf-8',(err,data)=>{
+  fs.readFile(todolistFile,'utf-8',(err,data)=>{
     if (err) console.log(err);
     let obj = JSON.parse(data);
     if (!obj.hasOwnProperty(req.params.id)){
@@ -69,13 +73,13 @@ app.put('/todos/:id',(req,res)=>{
     }
     obj[req.params.id] = newTodo;
     let json = JSON.stringify(obj);
-    fs.writeFile('todoList.json', json, 'utf8',()=>{console.log("Values updated")});
+    fs.writeFile(todolistFile, json, 'utf8',()=>{console.log("Values updated")});
     res.sendStatus(200);
   })
 })
 
 app.delete('/todos/:id',(req,res)=>{
-  fs.readFile('todoList.json','utf-8',(err,data)=>{
+  fs.readFile(todolistFile,'utf-8',(err,data)=>{
     if (err) console.log(err);
     let obj = JSON.parse(data);
     if (!obj.hasOwnProperty(req.params.id)){
@@ -83,7 +87,7 @@ app.delete('/todos/:id',(req,res)=>{
     }
     delete obj[req.params.id];
     let json = JSON.stringify(obj);
-    fs.writeFile('todoList.json', json, 'utf8',()=>{console.log("Values updated")});
+    fs.writeFile(todolistFile, json, 'utf8',()=>{console.log("Values updated")});
     res.sendStatus(200)
   })
 })
