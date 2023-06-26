@@ -39,7 +39,9 @@ app.post('/todos', (req,res)=>{
   readWritefn(todolistFile,counter,newTodo);
   readWritefn(dataObjFile,"counter",counter);
   counter += 1;
+  res.send(newTodo);
   res.sendStatus(201);
+
 })
 
 app.get('/todos',(req,res)=>{
