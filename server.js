@@ -1,106 +1,87 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
-const path = require('path')
 const PORT = process.env.PORT || 3000
+const mongoose = require('mongoose');
+const todoListModel = require('./models/todoListModel');
+const { ObjectId } = require('mongodb');
+require('dotenv').config();
 
+const MONGODB_URL = process.env.MONGODB_URL;
+mongoose.connect(MONGODB_URL);
+
+
+// Express middleware and initialization
 const app = express();
 app.use(bodyParser.json());
 app.use(express.static('src'));
 
-const dataObjFile = './jsondata/dataObj.json';
-const todolistFile = './jsondata/todoList.json';
 
-
-let counter = 0; 
-let readCounter = ()=>{
-  let data = fs.readFileSync(dataObjFile,{encoding: 'utf-8', flag: 'r'});
-  let dataObj = JSON.parse(data);
-  counter = dataObj.counter;
-}
-
-readCounter();
-
-const readWritefn = (file,key,value) => {
-  fs.readFile(file,'utf-8',(err,data)=>{
-    if (err) console.log(err);
-    let obj = JSON.parse(data);
-    obj[key]=(value);
-    let json = JSON.stringify(obj);
-    fs.writeFile(file, json, 'utf8',()=>{console.log("Values updated")});
-  })
-}
-
-app.get('/',(req,res)=>{
+app.get('/', (req, res) => {
   res.sendFile('/index.html');
 })
 
-app.post('/todos', (req,res)=>{
+app.post('/todos', (req, res) => {
   const newTodo = req.body;
-  readWritefn(todolistFile,counter,newTodo);
-  readWritefn(dataObjFile,"counter",counter);
-  counter += 1;
-  res.send(newTodo);
-  res.sendStatus(201);
+  run();
+  async function run() {
+    const todo = await todoListModel.create({
+      title: newTodo.title,
+      description: newTodo.description,
+    });
+    console.log(todo);
+    res.status(201).send(todo);
+  }
 
 })
 
-app.get('/todos',(req,res)=>{
-  fs.readFile(todolistFile,'utf-8',(err,data)=>{
-    if (err) console.log(err);
-    let obj = JSON.parse(data);
-    let allObj = Object.values(obj);       // If we want to retrun a array of objects we can use this
-    let json = JSON.stringify(allObj);
-    res.send(json);
-  })
+app.get('/todos', (req, res) => {
+  todoListModel.find().then((todos) => {
+    console.log('Todos:', todos);
+    res.send(todos);
+  }).catch((error) => {
+    console.error('Error retrieving todos:', error);
+  });
 })
 
-app.get('/todos/:id',(req,res)=>{
-  fs.readFile(todolistFile,'utf-8',(err,data)=>{
-    if (err) console.log(err);
-    let obj = JSON.parse(data)
-    if (!obj.hasOwnProperty(req.params.id)){
-      res.sendStatus(404);
+app.get('/todos/:id', (req, res) => {
+  const id = req.params.id;
+  todoListModel.find().then((todos) => {
+    console.log('Todos:', todos);
+    for (let i = 0; i < todos.length; i++) {
+      if (todos[i]._id.equals(new ObjectId(id))) {
+        res.send(todos[i]);
+      }
     }
-    res.send(obj[req.params.id]);
-  })
+  }).catch((error) => {
+    console.error('Error retrieving todos:', error);
+  });
 })
 
-app.put('/todos/:id',(req,res)=>{
-  const newTodo = req.body;
-  fs.readFile(todolistFile,'utf-8',(err,data)=>{
-    if (err) console.log(err);
-    let obj = JSON.parse(data);
-    if (!obj.hasOwnProperty(req.params.id)){
-      res.sendStatus(404);
-    }
-    obj[req.params.id] = newTodo;
-    let json = JSON.stringify(obj);
-    fs.writeFile(todolistFile, json, 'utf8',()=>{console.log("Values updated")});
-    res.sendStatus(200);
-  })
-})
 
-app.delete('/todos/:id',(req,res)=>{
-  fs.readFile(todolistFile,'utf-8',(err,data)=>{
-    if (err) console.log(err);
-    let obj = JSON.parse(data);
-    if (!obj.hasOwnProperty(req.params.id)){
-      res.sendStatus(404);
-    }
-    delete obj[req.params.id];
-    let json = JSON.stringify(obj);
-    fs.writeFile(todolistFile, json, 'utf8',()=>{console.log("Values updated")});
-    res.sendStatus(200)
-  })
-})
+app.delete('/todos/:id', (req, res) => {
+  const id = req.params.id;
 
+  todoListModel.findOneAndDelete({ _id: new ObjectId(id) }) // Use findOneAndDelete to find and delete the matching object
+    .then((deletedTodo) => {
+      if (deletedTodo) {
+        console.log('Deleted Todo:', deletedTodo);
+        res.send('Todo deleted successfully');
+      } else {
+        res.status(404).send('Todo not found');
+      }
+    })
+    .catch((error) => {
+      console.error('Error deleting todo:', error);
+      res.status(500).send('Internal Server Error');
+    });
+});
 
 
 app.use((req, res, next) => {
   res.status(404).send();
 });
 
-app.listen(PORT,()=>{
+app.listen(PORT, () => {
   console.log(`App Listening to Port ${PORT}`);
 })
