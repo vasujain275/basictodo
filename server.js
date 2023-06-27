@@ -1,11 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
-const PORT = process.env.PORT || 3000
 const mongoose = require('mongoose');
 const todoListModel = require('./models/todoListModel');
 const { ObjectId } = require('mongodb');
 require('dotenv').config();
+
+const PORT = process.env.PORT || 3000
+const URL = process.env.URL || 'http://localhost'
 
 const MONGODB_URL = process.env.MONGODB_URL;
 mongoose.connect(MONGODB_URL);
