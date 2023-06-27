@@ -16,7 +16,7 @@ async function getGlobals() {
   getGlobals();
 
 function deleteTodo(id) {
-    fetch(`${URL}:${PORT}/todos/${id}`, {
+    fetch(`${URL}/todos/${id}`, {
         method: 'DELETE'
     }).then((resp) => {
         // console.log(resp);
@@ -28,7 +28,7 @@ function deleteTodo(id) {
 
 
 const loadTodos = () => {
-    fetch(`${URL}:${PORT}/todos`, {
+    fetch(`${URL}/todos`, {
         method: 'GET'
     }).then((resp) => {
         resp.json().then((data) => {
@@ -95,7 +95,7 @@ const addTodo = () => {
     var title = document.getElementById('title').value;
     var description = document.getElementById('description').value;
 
-    fetch(`${URL}:${PORT}/todos`, {
+    fetch(`${URL}/todos`, {
         method: 'POST',
         body: JSON.stringify({
             title: title,
