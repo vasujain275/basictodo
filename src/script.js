@@ -20,10 +20,10 @@ function deleteTodo(id) {
         method: 'DELETE'
     }).then((resp) => {
         // console.log(resp);
-        loadTodos();
+        let element = document.getElementById(id);
+        element.parentNode.removeChild(element);
     })
-    let element = document.getElementById(id);
-    element.parentNode.removeChild(element);
+
 }
 
 
@@ -33,7 +33,7 @@ const loadTodos = () => {
     }).then((resp) => {
         resp.json().then((data) => {
             var parentElement = document.getElementById('mainArea');
-            parentElement.innerHTML = '';
+
             for (let i = 0; i < data.length; i++) {
                 var childElement = document.createElement('tr');
                 childElement.setAttribute('id', `${data[i]['_id']}`);
