@@ -1,7 +1,7 @@
-function deleteTodo(id){
+function deleteTodo(id) {
     fetch(`http://localhost:3000/todos/${id}`, {
         method: 'DELETE'
-    }).then((resp)=>{
+    }).then((resp) => {
         // console.log(resp);
         loadTodos();
     })
@@ -32,7 +32,7 @@ const loadTodos = () => {
                 const greatgrandChildElement = document.createElement('button');
                 greatgrandChildElement.setAttribute("onclick", "deleteTodo(" + `\"${data[i]['_id']}\"` + ")");
                 greatgrandChildElement.innerHTML = 'Delete';
-                
+
                 grandChildElement3.appendChild(greatgrandChildElement);
 
 
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
     loadTodos();
 });
 
-function appendtodo(data){
+function appendtodo(data) {
     // console.log(data['_id']);
     var parentElement = document.getElementById('mainArea');
     var childElement = document.createElement('tr');
@@ -89,7 +89,7 @@ const addTodo = () => {
         headers: {
             "Content-Type": "application/json"
         }
-    }).then((resp)=>{
+    }).then((resp) => {
         resp.json().then(appendtodo);
     })
     document.getElementById('title').value = '';
