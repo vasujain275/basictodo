@@ -29,7 +29,7 @@ app.post('/todos', (req, res) => {
       title: newTodo.title,
       description: newTodo.description,
     });
-    console.log(todo);
+    // console.log(todo);
     res.status(201).send(todo);
   }
 
@@ -37,7 +37,7 @@ app.post('/todos', (req, res) => {
 
 app.get('/todos', (req, res) => {
   todoListModel.find().then((todos) => {
-    console.log('Todos:', todos);
+    // console.log('Todos:', todos);
     res.send(todos);
   }).catch((error) => {
     console.error('Error retrieving todos:', error);
@@ -47,7 +47,7 @@ app.get('/todos', (req, res) => {
 app.get('/todos/:id', (req, res) => {
   const id = req.params.id;
   todoListModel.find().then((todos) => {
-    console.log('Todos:', todos);
+    // console.log('Todos:', todos);
     for (let i = 0; i < todos.length; i++) {
       if (todos[i]._id.equals(new ObjectId(id))) {
         res.send(todos[i]);
@@ -65,7 +65,7 @@ app.delete('/todos/:id', (req, res) => {
   todoListModel.findOneAndDelete({ _id: new ObjectId(id) }) // Use findOneAndDelete to find and delete the matching object
     .then((deletedTodo) => {
       if (deletedTodo) {
-        console.log('Deleted Todo:', deletedTodo);
+        // console.log('Deleted Todo:', deletedTodo);
         res.send('Todo deleted successfully');
       } else {
         res.status(404).send('Todo not found');
