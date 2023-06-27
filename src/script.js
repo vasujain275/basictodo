@@ -1,6 +1,6 @@
 async function getGlobals() {
     try {
-      const response = await fetch('/variables');
+      const response = await fetch('https://basictodo.onrender.com/variables');
       const data = await response.json();
       window.PORT = data.PORT;
       window.URL = data.URL;
