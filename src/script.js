@@ -32,7 +32,7 @@ const loadTodos = () => {
 
                 const grandChildElement3 = document.createElement('td');
 
-                const greatgrandChildElement = document.createElement('button');
+                const greatgrandChildElement = document.createElement('button');    
                 greatgrandChildElement.setAttribute("onclick", "deleteTodo(" + `\"${data[i]['_id']}\"` + ")");
                 greatgrandChildElement.innerHTML = 'Delete';
 
