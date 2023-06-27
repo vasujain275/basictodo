@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const todoListModel = require('./models/todoListModel');
 const { ObjectId } = require('mongodb');
 require('dotenv').config();
+const cors = require('cors');
+
 
 const URL = process.env.URL || 'http://localhost';
 const PORT = process.env.PORT || 3000;
@@ -17,7 +19,7 @@ mongoose.connect(MONGODB_URL);
 const app = express();
 app.use(bodyParser.json());
 app.use(express.static('src'));
-
+app.use(cors());
 
 app.get('/', (req, res) => {
   res.sendFile('/index.html');
