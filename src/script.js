@@ -1,11 +1,25 @@
+function deleteTodo(id){
+    fetch(`http://localhost:3000/todos/${id}`, {
+        method: 'DELETE'
+    }).then((resp)=>{
+        // console.log(resp);
+        loadTodos();
+    })
+    let element = document.getElementById(id);
+    element.parentNode.removeChild(element);
+}
+
+
 const loadTodos = () => {
     fetch('http://localhost:3000/todos', {
         method: 'GET'
     }).then((resp) => {
         resp.json().then((data) => {
             var parentElement = document.getElementById('mainArea');
-            for (let i = 1; i <= Object.keys(data).length; i++) {
+            parentElement.innerHTML = '';
+            for (let i = 0; i < data.length; i++) {
                 var childElement = document.createElement('tr');
+                childElement.setAttribute('id', `${data[i]['_id']}`);
 
                 const grandChildElement1 = document.createElement('td');
                 grandChildElement1.innerHTML = data[i]['title'];
@@ -14,8 +28,11 @@ const loadTodos = () => {
                 grandChildElement2.innerHTML = data[i]['description'];
 
                 const grandChildElement3 = document.createElement('td');
+
                 const greatgrandChildElement = document.createElement('button');
+                greatgrandChildElement.setAttribute("onclick", "deleteTodo(" + `\"${data[i]['_id']}\"` + ")");
                 greatgrandChildElement.innerHTML = 'Delete';
+                
                 grandChildElement3.appendChild(greatgrandChildElement);
 
 
@@ -33,9 +50,10 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function appendtodo(data){
-    console.log(data);
+    // console.log(data['_id']);
     var parentElement = document.getElementById('mainArea');
     var childElement = document.createElement('tr');
+    childElement.setAttribute('id', `${data['_id']}`);
 
     const grandChildElement1 = document.createElement('td');
     grandChildElement1.innerHTML = data.title;
@@ -45,6 +63,7 @@ function appendtodo(data){
 
     const grandChildElement3 = document.createElement('td');
     const greatgrandChildElement = document.createElement('button');
+    greatgrandChildElement.setAttribute("onclick", "deleteTodo(" + `\"${data['_id']}\"` + ")");
     greatgrandChildElement.innerHTML = 'Delete';
     grandChildElement3.appendChild(greatgrandChildElement);
 
@@ -73,6 +92,7 @@ const addTodo = () => {
     }).then((resp)=>{
         resp.json().then(appendtodo);
     })
-
+    document.getElementById('title').value = '';
+    document.getElementById('description').value = '';
 
 }
