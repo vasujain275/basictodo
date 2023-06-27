@@ -1,6 +1,48 @@
 .div-to-center {
-  margin-left: auto;
-  margin-right: auto;
+  display: grid;
+}
+
+.topic{
+  text-align: center;
+  font-size: 50px;
+  margin-top: 5px;
+}
+
+.flex-1{
+  display: flex;
+  align-items: center;
+  background-color: lightgrey;
+}
+
+.title{
+  font-size: 25px;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+.title-textbox{
+  font-size: 20px;
+  width: 500px;
+  margin-right: 20px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.description{
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.description-textbox{
+  font-size: 20px;
+  width: 500px;
+  margin-right: 20px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
 
 .add-todo-button {
@@ -20,12 +62,34 @@
   background-color: #45a049;
 }
 
-table {
-  border-collapse: separate;
-  border-spacing: 10px; /* Adjust this value to set the desired spacing */
+.todo-list{
+  font-size: 30px;
+  text-align: center;
 }
 
-td,
-th {
-  padding: 10px; /* Optional: Add padding within the cells */
+.table{
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+table {
+  border: 1px solid black;
+  border-collapse: separate;
+  border-spacing: -1px; /* Adjust this value to set the desired spacing */
+}
+
+th{
+  font-size: 20px;
+  background-color: lightblue;
+  padding: 20px;
+}
+
+td{
+  background-color: lightpink;
+  padding: 20px;
+  font-size: 16px;
+}
+
+greatgrandChildElemen.innerhtml{
+  background-color: black;
 }
