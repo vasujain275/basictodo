@@ -19,7 +19,9 @@ mongoose.connect(MONGODB_URL);
 const app = express();
 app.use(bodyParser.json());
 app.use(express.static('src'));
-app.use(cors());
+app.use(cors({
+  origin: '*',
+}));
 
 app.get('/', (req, res) => {
   res.sendFile('/index.html');
