@@ -5,6 +5,8 @@ function deleteTodo(id){
         // console.log(resp);
         loadTodos();
     })
+    let element = document.getElementById(id);
+    element.parentNode.removeChild(element);
 }
 
 
