@@ -1,5 +1,8 @@
+const PORT = process.env.PORT || 3000
+const URL = process.env.URL || 'http://localhost'
+
 function deleteTodo(id) {
-    fetch(`http://localhost:3000/todos/${id}`, {
+    fetch(`${URL}:${PORT}/todos/${id}`, {
         method: 'DELETE'
     }).then((resp) => {
         // console.log(resp);
@@ -11,7 +14,7 @@ function deleteTodo(id) {
 
 
 const loadTodos = () => {
-    fetch('http://localhost:3000/todos', {
+    fetch('${URL}:${PORT}:3000/todos', {
         method: 'GET'
     }).then((resp) => {
         resp.json().then((data) => {
@@ -80,7 +83,7 @@ const addTodo = () => {
     var title = document.getElementById('title').value;
     var description = document.getElementById('description').value;
 
-    fetch('http://localhost:3000/todos', {
+    fetch('${URL}:${PORT}/todos', {
         method: 'POST',
         body: JSON.stringify({
             title: title,

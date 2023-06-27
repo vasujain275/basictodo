@@ -83,5 +83,5 @@ app.use((req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`App Listening to Port ${PORT}`);
+  console.log(`App Listening to ${URL}:${PORT}`);
 })
