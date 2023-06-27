@@ -6,9 +6,8 @@ const todoListModel = require('./models/todoListModel');
 const { ObjectId } = require('mongodb');
 require('dotenv').config();
 
-const PORT = process.env.PORT || 3000
-const URL = process.env.URL || 'http://localhost'
-
+const URL = process.env.URL || 'http://localhost';
+const PORT = process.env.PORT || 3000;
 
 const MONGODB_URL = process.env.MONGODB_URL;
 mongoose.connect(MONGODB_URL);
@@ -23,6 +22,11 @@ app.use(express.static('src'));
 app.get('/', (req, res) => {
   res.sendFile('/index.html');
 })
+
+app.get('/variables', (req, res) => {
+  res.json({ URL, PORT });
+});
+
 
 app.post('/todos', (req, res) => {
   const newTodo = req.body;

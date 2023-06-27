@@ -1,5 +1,19 @@
-const PORT = process.env.PORT || 3000
-const URL = process.env.URL || 'http://localhost'
+async function getGlobals() {
+    try {
+      const response = await fetch('/variables');
+      const data = await response.json();
+      window.PORT = data.PORT;
+      window.URL = data.URL;
+  
+      // Rest of your script that depends on PORT and URL
+      loadTodos();
+
+    } catch (error) {
+      console.error('Error fetching globals:', error);
+    }
+  }
+  
+  getGlobals();
 
 function deleteTodo(id) {
     fetch(`${URL}:${PORT}/todos/${id}`, {
@@ -14,7 +28,7 @@ function deleteTodo(id) {
 
 
 const loadTodos = () => {
-    fetch('${URL}:${PORT}:3000/todos', {
+    fetch(`${URL}:${PORT}/todos`, {
         method: 'GET'
     }).then((resp) => {
         resp.json().then((data) => {
@@ -32,7 +46,7 @@ const loadTodos = () => {
 
                 const grandChildElement3 = document.createElement('td');
 
-                const greatgrandChildElement = document.createElement('button');    
+                const greatgrandChildElement = document.createElement('button');
                 greatgrandChildElement.setAttribute("onclick", "deleteTodo(" + `\"${data[i]['_id']}\"` + ")");
                 greatgrandChildElement.innerHTML = 'Delete';
 
@@ -48,9 +62,7 @@ const loadTodos = () => {
         });
     })
 }
-document.addEventListener('DOMContentLoaded', function () {
-    loadTodos();
-});
+
 
 function appendtodo(data) {
     // console.log(data['_id']);
@@ -83,7 +95,7 @@ const addTodo = () => {
     var title = document.getElementById('title').value;
     var description = document.getElementById('description').value;
 
-    fetch('${URL}:${PORT}/todos', {
+    fetch(`${URL}:${PORT}/todos`, {
         method: 'POST',
         body: JSON.stringify({
             title: title,
