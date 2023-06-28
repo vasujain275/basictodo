@@ -56,6 +56,7 @@
   cursor: pointer;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s ease;
+  width: 200px;
 }
 
 .add-todo-button:hover {
@@ -90,6 +91,16 @@ td{
   font-size: 16px;
 }
 
-greatgrandChildElemen.innerhtml{
-  background-color: black;
+.deletebtn{
+  background-color:#10105a;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.deletebtn:hover{
+  background-color: #16167c;
 }

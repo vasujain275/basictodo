@@ -48,6 +48,7 @@ const loadTodos = () => {
 
                 const greatgrandChildElement = document.createElement('button');
                 greatgrandChildElement.setAttribute("onclick", "deleteTodo(" + `\"${data[i]['_id']}\"` + ")");
+                greatgrandChildElement.setAttribute("class", 'deletebtn');
                 greatgrandChildElement.innerHTML = 'Delete';
 
                 grandChildElement3.appendChild(greatgrandChildElement);
@@ -79,6 +80,7 @@ function appendtodo(data) {
     const grandChildElement3 = document.createElement('td');
     const greatgrandChildElement = document.createElement('button');
     greatgrandChildElement.setAttribute("onclick", "deleteTodo(" + `\"${data['_id']}\"` + ")");
+    greatgrandChildElement.setAttribute("class", 'deletebtn');
     greatgrandChildElement.innerHTML = 'Delete';
     grandChildElement3.appendChild(greatgrandChildElement);
 

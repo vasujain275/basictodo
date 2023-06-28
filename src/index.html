@@ -3,15 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Todo App</title>
 	<link rel="stylesheet" href="style.css">
+    <title>Todo App</title>
   </head>
   <body>
 		<div class="div-to-center">
-			<h1>My Todo List</h1>
-			<p>Title: <input type="text" name="title" id="title"></p>
-			<p>Description: <input type="text" name="description" id="description"></p>
-			<button class="add-todo-button" onclick="addTodo()">Add Todo</button>
+			<h1 class="topic">My Todo List</h1>
+			<div class="flex-1">
+				<div class="title">
+					<p>Title: 
+					<input type="text" name="title" id="title" class="title-textbox" placeholder="Enter Title"></p>
+				</div>
+				<div class="description">
+					<p>Description: 
+					<input type="text" name="description" id="description" class="description-textbox" placeholder="Enter Description"></p></div>
+					<button class="add-todo-button" onclick="addTodo()">Add Todo</button>
+				</div>
 
 			<h2 class="todo-list">Your Todos: </h2>
 			<div class="table">
