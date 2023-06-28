@@ -1,6 +1,6 @@
 # basicTodo
 
-A basic todo app with a backend built in Express.js, using MongoDB for the database, and vanilla JS, CSS, and HTML for the frontend.
+A basic todo app with a backend built in Express.js, using MongoDB for the database, and vanilla JS, CSS, and HTML for the frontend. Live at - https://basictodo.onrender.com
 
 ## Overview
 
